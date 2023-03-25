@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IdentityRole
+
+@{
+    ViewData["Title"] = @SharedLocalizer["EditRole"];
+}
+
+@section PageHeader
+    {
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Roles"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["EditRole"]</span>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
+}
+
+<div class="block-header text-info"> @ViewBag.EditRole </div>
+
+<div class="tab-pane">
+    <div class="col-xl-12">
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <form class="form-group" asp-controller="Role" asp-action="Edit">
+
+                        <label asp-for="Name">@SharedLocalizer["Name"]</label>
+                        <input type="text" class="form-control" asp-for="Name" /><br/><br/>
+                        <center>
+                            <input type="submit" value="@SharedLocalizer["Update"]" class="btn btn-primary" />
+                            <a asp-controller="Role" asp-action="Index" class="btn btn-success">@SharedLocalizer["BackToData"]</a>
+                        </center><br /><br />
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

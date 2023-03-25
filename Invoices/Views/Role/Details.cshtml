@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IdentityRole
+
+
+@{
+    ViewData["Title"] = @SharedLocalizer["Details"];
+}
+
+@section BootstrapSelect{
+    <link href="~/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+}
+
+@section css
+    {
+    <!-- Internal Data table css -->
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <link href="~/assets/css/invoiceDetails.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+@section PageHeader
+    {
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Roles"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["Details"]</span>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
+}
+<div class="tab-pane">
+    <div class="col-xl-12">
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <form class="form-group">
+                        <div class="row">
+
+                            <label asp-for="Name">@SharedLocalizer["Name"]</label>
+                            <input type="text" class="form-control" asp-for="Name" readonly />
+                            <br />
+                        </div>
+                    </form>
+                    <br />
+                    <br />
+
+                    <center>
+                        <a asp-controller="User" asp-action="Index" class="btn btn-success">@SharedLocalizer["BackToData"]</a>
+                        <a asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">@SharedLocalizer["Update"]</a>
+                        <a asp-controller="User" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary">@SharedLocalizer["Delete"]</a>
+                    </center>
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

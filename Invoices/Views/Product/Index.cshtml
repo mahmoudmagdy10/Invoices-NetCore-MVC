@@ -1,0 +1,286 @@
+﻿@using Invoices.BL.Models
+@model Invoices.BL.Models.ProductVM
+@inject Invoices.BL.Interface.ISectionRep sections
+
+@{
+    ViewData["Title"] = @SharedLocalizer["ProductsList"];
+    var products = ViewBag.Products;
+}
+
+		
+@section PageHeader
+{
+    <div class="breadcrumb-header justify-content-between" style="margin-right:10px">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Settings"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["Products"]</span>
+            </div>
+        </div>
+    </div>
+}
+<!-- row -->
+<!--div-->
+<div class="col-xl-12">
+    <div class="card mg-b-20">
+
+        @*@can('اضافة قسم')*@
+        <div class="card-header pb-0">
+            <div class="col-sm-6 col-md-4 col-xl-3">
+                <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#addproduct">@SharedLocalizer["AddProduct"]</a>
+            </div>
+        </div>
+        @*@endcan*@
+
+        <div class="card-body">
+
+            <div class="text-red">
+                @TempData["CreateProduct"]
+            </div>
+            <div class="table-responsive">
+                <table id="example1" class="table key-buttons text-md-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="border-bottom-0">#</th>
+                            <th class="border-bottom-0">@SharedLocalizer["ProductName"]</th>
+                            <th class="border-bottom-0">@SharedLocalizer["Description"]</th>
+                            <th class="border-bottom-0">@SharedLocalizer["SectionName"]</th>
+                            <th class="border-bottom-0">@SharedLocalizer["Operations"]</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (products != null)
+                        {
+                            @foreach (var product in products)
+                            {
+
+                                var SectionModel = sections.GetById(product.SectionId);
+                                <tr>
+                                    <td>#</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Description</td>
+                                    <td><a>@SectionModel.Name</a></td>
+                                    <td>
+
+                                        @*@can('تعديل قسم')*@
+                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale" data-id="@product.Id"
+                                            data-name="@product.Name" data-sectionid="@product.SectionId" data-description="@product.Description" data-toggle="modal" href="#editproduct">
+                                            <i class="las la-pen"></i>
+                                        </a>
+                                        @*@endcan*@
+
+                                        @*@can('حذف قسم')*@
+                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                               data-id="@product.Id" data-sectionid="@product.SectionId" data-name="@product.Name" data-description="@product.Description"
+                                               data-toggle="modal" href="#deleteproduct">
+                                            <i class="las la-trash"></i>
+                                        </a>
+                                        @*@endcan*@
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal effects Add-->
+    <div class="modal" id="addproduct">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">@SharedLocalizer["AddProduct"]</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form asp-controller="Product" asp-action="Create" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label asp-for="Name">@SharedLocalizer["ProductName"]</label>
+                            <input type="text" class="form-control" asp-for="Name" placeholder="@SharedLocalizer["EnterProductName"]">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SectionId">@SharedLocalizer["SectionName"]</label>
+                            <select asp-for="SectionId" class="form-control">
+                                <option>@SharedLocalizer["ChooseSection"]</option>
+                                @foreach(var item in sections.Get())
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description">@SharedLocalizer["Description"]</label>
+                            <textarea class="form-control" asp-for="Description" placeholder="@SharedLocalizer["EnterProductDescription"]">
+                            </textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["Add"]</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">@SharedLocalizer["Cancel"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal effects-->
+
+
+    @*--------------------------------------------------------------*@
+    <!-- Modal effects Add-->
+    <div class="modal" id="editproduct">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">@SharedLocalizer["Edit"]</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <form asp-controller="Product" asp-action="Edit" method="POST">
+                    <div class="modal-body">
+
+                        <input type="hidden" id="Id" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Name">@SharedLocalizer["ProductName"]</label>
+                            <input type="text" class="form-control" id="Name" asp-for="Name" placeholder="@SharedLocalizer["EnterProductName"]">
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="SectionId">@SharedLocalizer["SectionName"]</label>
+                            <select asp-for="SectionId" id="SectionId" class="form-control">
+                                <option>@SharedLocalizer["ChooseSection"]</option>
+                                @foreach (var item in sections.Get())
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description">@SharedLocalizer["Description"]</label>
+                            <textarea class="form-control" id="Description" asp-for="Description" placeholder="@SharedLocalizer["EnterProductDescription"]">
+                            </textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["update"]</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">@SharedLocalizer["Cancel"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal effects-->
+    
+
+    <!-- Modal delete effects Delete -->
+    <div class="modal" id="deleteproduct">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">@SharedLocalizer["DeleteProduct"]</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form asp-controller="Product" asp-action="Delete" method="POST">
+                    <div class="modal-body">
+                        <input type="hidden" asp-for="Id">
+
+                        <div class="form-group">
+                            <label asp-for="Name">@SharedLocalizer["ProductName"]</label>
+                            <input type="text" class="form-control" asp-for="Name" placeholder="@SharedLocalizer["EnterProductName"]" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name">@SharedLocalizer["SectionName"]</label>
+                            <select asp-for="SectionId" id="SectionId" class="form-control">
+                                <option>@SharedLocalizer["ChooseSection"]</option>
+                                @foreach (var item in sections.Get())
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description">@SharedLocalizer["Description"]</label>
+                            <textarea class="form-control" asp-for="Description" placeholder="@SharedLocalizer["EnterProductDescription"]" readonly>
+                            </textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["Delete"]</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">@SharedLocalizer["Cancel"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal delete effects-->
+</div>
+<!--/div-->
+<!-- row closed -->
+@section js
+{
+<!-- Internal Data tables -->
+<script src="~/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+<script src="~/assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/plugins/datatable/js/responsive.dataTables.min.js"></script>
+<script src="~/assets/plugins/datatable/js/jquery.dataTables.js"></script>
+<script src="~/assets/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+<script src="~/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/plugins/datatable/js/jszip.min.js"></script>
+<script src="~/assets/plugins/datatable/js/pdfmake.min.js"></script>
+<script src="~/assets/plugins/datatable/js/vfs_fonts.js"></script>
+<script src="~/assets/plugins/datatable/js/buttons.html5.min.js"></script>
+<script src="~/assets/plugins/datatable/js/buttons.print.min.js"></script>
+<script src="~/assets/plugins/datatable/js/buttons.colVis.min.js"></script>
+<script src="~/assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+<!--Internal  Datatable js -->
+<script src="~/assets/js/table-data.js"></script>
+
+<!--Internal  Datepicker js -->
+<script src="~/assets/plugins/jquery-ui/ui/widgets/datepicker.js"></script>
+<!-- Internal Select2 js-->
+<script src="~/assets/plugins/select2/js/select2.min.js"></script>
+<!-- Internal Modal js-->
+<script src="~/assets/js/modal.js"></script>
+
+
+<script>
+        $('#editproduct').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var Id = button.data('id')
+        var ProductName = button.data('name')
+        var Description = button.data('description')
+        var SectionId = button.data('sectionid')
+        var modal = $(this)
+
+        modal.find('.modal-body #Id').val(Id);
+        modal.find('.modal-body #Name').val(ProductName);
+        modal.find('.modal-body #Description').val(Description);
+        modal.find('.modal-body #SectionId').val(SectionId);
+    })
+</script>
+<script>
+    $('#deleteproduct').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var Id = button.data('id')
+        var ProductName = button.data('name')
+        var Description = button.data('description')
+        var SectionId = button.data('sectionid')
+
+        var modal = $(this)
+        modal.find('.modal-body #Id').val(Id);
+        modal.find('.modal-body #Name').val(ProductName);
+        modal.find('.modal-body #Description').val(Description);
+            modal.find('.modal-body #SectionId').val(SectionId);
+
+    })
+</script>
+
+
+}

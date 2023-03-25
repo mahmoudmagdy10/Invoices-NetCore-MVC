@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IdentityUser
+
+@{
+    ViewData["Title"] = @SharedLocalizer["EditUserData"];
+}
+
+
+@section css
+    {
+    <!-- Internal Data table css -->
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <link href="~/assets/css/invoiceDetails.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+@section PageHeader
+    {
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Users"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["UserDetails"]</span>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
+}
+<div class="tab-pane">
+    <div class="col-xl-12">
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <form asp-controller="User" asp-action="Edit" class="form-group">
+                        <div class="row">
+
+                            <div class="col">
+                                <label asp-for="Id">@SharedLocalizer["Id"]</label>
+                                <input type="text" class="form-control" asp-for="Id" readonly />
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="Email">@SharedLocalizer["Email"]</label>
+                                <input type="text" class="form-control" asp-for="Email" readonly />
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="UserName">@SharedLocalizer["UserName"]</label>
+                                <input type="text" class="form-control" asp-for="UserName" />
+                            </div>
+
+                        </div>
+                        <center>
+                            <input type="submit" value="@SharedLocalizer["Save"]" class="btn btn-primary" />
+                            <a asp-controller="User" asp-action="Index" class="btn btn-success">@SharedLocalizer["Cancel"]</a>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section MicrosoftValidation{
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="~/assets/plugins/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}
+

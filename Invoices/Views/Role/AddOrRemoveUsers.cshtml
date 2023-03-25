@@ -1,0 +1,53 @@
+﻿@model List<Invoices.BL.Models.UserInRoleVM>
+@{
+    ViewData["Title"] = @SharedLocalizer["AddOrRemoveUsers"];
+    var RoleId = ViewBag.RoleId;
+}
+
+@section PageHeader
+    {
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Roles"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["AddOrRemoveUsers"]</span>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
+}
+
+<div class="tab-pane">
+    <div class="col-xl-12">
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <form class="form-group" method="post">
+
+                        <div class="card-header">
+                            <h2>@SharedLocalizer["AddOrRemoveUsersInRole"]</h2>
+                        </div>
+
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+
+                            <input asp-for="@Model[i].IsSelected" type="checkbox" class="filled-in">
+                            <label asp-for="@Model[i].IsSelected">@Model[i].UserName</label>
+
+                            <input type="hidden" asp-for="@Model[i].UserId" />
+                            <input type="hidden" asp-for="@Model[i].UserName" />
+
+                        }
+
+                        <div class="card-footer">
+                            <input type="submit" value="Edit" class="btn btn-primary" />
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,179 @@
+﻿@model Invoices.BL.Models.InvoiceVM
+@inject Invoices.BL.Interface.IInvoiceRep PaiedInvoices
+@{
+    ViewData["Title"] = @SharedLocalizer["PaiedInvoicesList"];
+
+    var Invoices = PaiedInvoices.Get(a => a.ValueStatus == 2);
+}
+
+@section css
+{
+    <!-- Internal Data table css -->
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/prism/prism.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+@section PageHeader
+{
+    <div class="breadcrumb-header justify-content-between" style="margin-right:10px">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Invoices"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["PaiedInvoices"]</span>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="col-xl-12">
+    <div class="card mg-b-20">
+        <div class="card-header pb-0">
+
+            <div class="row row-xs wd-xl-80p">
+
+                <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <a asp-controller="Invoice" asp-action="DownloadFile" asp-route-value="2" class="btn btn-success-gradient btn-block">@SharedLocalizer["ExportInvoices"]</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+            <table id="example1" class="table key-buttons">
+                    <thead>
+                        <tr class="text-capitalize small">
+                            <th class="border-bottom-0">#</th>
+                            <th class="border-bottom-0">@SharedLocalizer["InvoiceNumber"]</th>
+                            <th class="border-bottom-0">@SharedLocalizer["Total"]</th>
+                            <th class="border-bottom-0">@SharedLocalizer["Status"]</th>
+                            <th class="border-bottom-0">@SharedLocalizer["Operations"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var invoice in Invoices)
+                        {
+                            <tr>
+                                <td>#</td>
+                                <td>@invoice.InvoiceNumber</td>
+                                <td>@invoice.Total</td>
+                                <td>
+                                    <b class="text-success">@invoice.Status</b>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-dark"
+                                        data-toggle="dropdown" type="button">
+                                                @SharedLocalizer["Operations"]
+                                                <i class="fas fa-caret-down ml-1"></i>
+                                        </button>
+                                        <div class="dropdown-menu tx-13">
+
+                                            @*@can('تعديل الفاتورة')*@
+                                                <a class="dropdown-item text-primary" asp-controller="Invoice" asp-action="Edit"
+                                                asp-route-id="@invoice.Id">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                    @SharedLocalizer["Edit"]
+                                            </a>
+                                            @*@endcan*@
+
+                                            @*@can('تعديل الفاتورة')*@
+                                            <a class="dropdown-item text-primary" asp-controller="Invoice" asp-action="Details"
+                                                asp-route-id="@invoice.Id">
+                                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                @SharedLocalizer["Details"]
+                                            </a>
+                                            @*@endcan*@
+
+                                            @*@can('حذف الفاتورة')*@
+                                                <a class="modal-effect dropdown-item text-danger" data-effect="effect-scale"
+                                                data-id="@invoice.Id" data-invoice_number="@invoice.InvoiceNumber" data-toggle="modal" href="#InvoiceDelete">
+                                                <i class="las la-trash"></i>
+                                                @SharedLocalizer["Delete"]
+                                            </a>
+                                            @*@endcan*@
+                                            
+                                            <a class="dropdown-item text-info" asp-controller="Invoice" asp-action="PrintInvoice"
+                                                asp-route-id="@invoice.Id">
+                                                <i class="fa-solid fa-print"></i>
+                                                @SharedLocalizer["PrintInvoice"]
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal delete effects Delete -->
+    <div class="modal" id="InvoiceDelete">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">@SharedLocalizer["DeleteInvoice"]</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="Invoice" asp-action="Delete" class="form-group" autocomplete="off">
+                    <div class="modal-body">
+                        <p>@SharedLocalizer["AreYouSureToDeleteTheInvoice"]</p>
+                        <input type="text" asp-for="InvoiceNumber" class="form-control" readonly>
+                        <input type="hidden" asp-for="Id">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["Confirm"]</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">@SharedLocalizer["Cancel"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal delete effects-->
+
+</div>
+
+@section js
+{
+
+    <!-- Internal Data tables -->
+    <script src="~/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/responsive.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/jquery.dataTables.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/jszip.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/pdfmake.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/vfs_fonts.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.html5.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.print.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+    <!--Internal  Datatable js -->
+    <script src="~/assets/js/table-data.js"></script>
+
+    <script>
+        $('#InvoiceDelete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var Id = button.data('id')
+            var InvoiceNumber = button.data('invoice_number')
+            var modal = $(this)
+            modal.find('.modal-body #Id').val(Id);
+            modal.find('.modal-body #InvoiceNumber').val(InvoiceNumber);
+        })
+    </script>
+}

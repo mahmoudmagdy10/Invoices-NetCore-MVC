@@ -1,0 +1,376 @@
+﻿@model Invoices.BL.Models.InvoiceVM
+@inject Invoices.BL.Interface.IProductRep product
+@inject Invoices.BL.Interface.ISectionRep section
+@{
+    ViewData["Title"] = @SharedLocalizer["InvoicesDetails"];
+    
+    var invoiceAttachmentsModel = ViewBag.invoiceAttachmentsModel;
+    var invoiceDetailsModel = ViewBag.invoiceDetailsModel;
+    var ProductModel = product.GetById(Model.ProductId); 
+    var SectionModel = section.GetById(ProductModel.SectionId); 
+}
+
+@section css
+{
+    <!-- Internal Data table css -->
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <link href="~/assets/css/invoiceDetails.css" rel="stylesheet">
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+@section PageHeader
+{
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+	    <div class="my-auto">
+		    <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Invoices"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["InvoicesDetails"]</span>
+		    </div>
+	    </div>
+    </div>
+    <!-- breadcrumb -->
+}
+
+@* ----------------------- Content ---------------------- *@
+
+    <div class="panel panel-primary tabs-style-2">
+            <div class="text-info">@TempData["AddAttachment"]</div>
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a href="#tab4" class="nav-link active" data-toggle="tab">@SharedLocalizer["InvoiceInfo"]</a></li>
+                        <li><a href="#tab5" class="nav-link" data-toggle="tab">@SharedLocalizer["InvoiceStatus"]</a></li>
+                        <li><a href="#tab6" class="nav-link" data-toggle="tab">@SharedLocalizer["InvoiceAttachments"]</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-body tabs-menu-body main-content-body-right border">
+                <div class="tab-content">
+
+            @* ------------------------------------ Invoice Info ---------------------------------------------- *@
+                    <div class="tab-pane active" id="tab4">
+                        <div class="col-xl-12">
+                            <div class="card mg-b-20">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table key-buttons text-md-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom-0">@SharedLocalizer["InvoiceNumber"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["InvoiceDate"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["DueDate"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Product"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Section"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Discount"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["RateVat"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["ValueVat"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Total"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Status"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Notes"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Operations"]</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @if(Model != null)
+                                            {
+                                                <tr>
+                                                    <td>@Model.InvoiceNumber</td>
+                                                    <td>@Model.InvoiceDate</td>
+                                                    <td>@Model.DueDate</td>
+                                                    <td>@ProductModel.Name</td>
+                                                    <td>@SectionModel.Name</td>
+                                                    <td>@Model.Discount</td>
+                                                    <td>@Model.RateVat</td>
+                                                    <td>@Model.ValueVat</td>
+                                                    <td>@Model.Total</td>
+                                                    <td>
+                                                        @if (@Model.ValueStatus == 2)
+                                                        {
+                                                            <b class="text-success">@Model.Status</b>
+                                                        }
+                                                        @if(@Model.ValueStatus == 1)
+                                                        {
+                                                            <b class="text-danger">@Model.Status</b>
+                                                        }
+                                                        @if(@Model.ValueStatus == 3)
+                                                        {
+                                                        <b class="text-warning">@Model.Status</b>
+                                                        }
+                                                    </td>
+                                                    <td>@Model.Notes</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-dark"
+                                                                data-toggle="dropdown" type="button">
+
+                                                                @SharedLocalizer["Operations"]
+                                                                <i class="fas fa-caret-down ml-1"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu tx-13">
+
+                                                                @*@can('تعديل الفاتورة')*@
+                                                                <a class="dropdown-item text-primary" asp-controller="Invoice" asp-action="Edit"
+                                                                    asp-route-id="@Model.Id" >
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                                    @SharedLocalizer["Edit"]
+                                                                </a>
+                                                                @*@endcan*@
+
+                                                                @if(@Model.ValueStatus != 2)
+                                                                {
+
+                                                                    <a class="dropdown-item text-success" sp-controller="Invoice" asp-action="Payment"
+                                                                        asp-route-id="@Model.Id">
+                                                                        <i class="fa-solid fa-bag-shopping"></i>
+                                                                        @SharedLocalizer["ChangePayStatus"]
+                                                                    </a>
+                                                                }
+
+                                                                @*@can('حذف الفاتورة')*@
+                                                                <a class="dropdown-item text-danger" data-effect="effect-scale"
+                                                                    data-id="@Model.Id" data-toggle="modal"
+                                                                    href="#delete">
+                                                                    <i class="las la-trash"></i>
+                                                                    @SharedLocalizer["Delete"]
+                                                                </a>
+                                                                @*@endcan*@
+
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            @* ------------------------------------ Invoice Info ---------------------------------------------- *@
+            
+            @* ------------------------------------ Invoice Status -------------------------------------------- *@
+
+                    <div class="tab-pane" id="tab5">
+                        <div class="col-xl-12">
+                            <div class="card mg-b-20">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table key-buttons text-md-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom-0">#</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["InvoiceNumber"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Notes"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["InvoiceDate"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["DueDate"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["UserName"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["AmountPaied"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["RemainingAmount"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Status"]</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var Details in invoiceDetailsModel)
+                                                {
+                                                    <tr>
+                                                        <td>#</td>
+                                                        <td>@Details.InvoiceNumber</td>
+                                                        <td>@Details.Notes</td>
+                                                        <td>@Model.InvoiceDate</td>
+                                                        <td>@Details.PayDate</td>
+                                                        <td>User</td>
+                                                        <td>@Details.AllocatedAmount<td>
+                                                        <td>@Details.RestAmount</td>
+                                                        <td>
+                                                            @if (@Details.ValueStatus == 2)
+                                                            {
+                                                                <b class="text-success">@Details.Status</b>
+                                                            }
+                                                            @if (@Details.ValueStatus == 1)
+                                                            {
+                                                                <b class="text-danger">@Details.Status</b>
+                                                            }
+                                                            @if (@Details.ValueStatus == 3)
+                                                            {
+                                                                <b class="text-warning">@Details.Status</b>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            @* ------------------------------------ Invoice Status -------------------------------------------- *@
+            
+            @* ------------------------------------ Invoice Attachments --------------------------------------- *@
+
+                    <div class="tab-pane" id="tab6">
+
+                        <div class="col-xl-12">
+                            <div class="card mg-b-20">
+
+                                <!-- Modal delete effects -->
+                                @*@can('اضافة مرفق')*@
+
+                                <form asp-controller="InvoiceAttachment" asp-action="Create" autocomplete="off" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <h3 class="text-primary">@SharedLocalizer["AddAttachments"]</h3><br>
+                                        <p class="text-danger">@SharedLocalizer["AllowedAttachmentTypesAre"] [ pdf, jpeg , jpg , png ]</p>
+                                        <h5 class="card-title">@SharedLocalizer["InvoiceAttachment"]</h5>
+
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" asp-for="Attachment"> <label class="custom-file-label" for="customFile">@SharedLocalizer["AddAttachments"]</label>
+                                            <input type="hidden" class="custom-file-input" asp-for="InvoiceNumber">
+                                            <input type="hidden" class="custom-file-input" asp-for="Id">
+                                        </div>
+                                        <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["Add"]</button>
+                                        @foreach (var Attachment in @invoiceAttachmentsModel)
+                                        {
+                                            <input type="hidden" class="form-control" asp-for="InvoiceNumber">
+                                        }
+                                    </div>
+                                </form>
+                                @* @endcan *@
+                                <!-- End Modal delete effects-->
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table key-buttons text-md-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom-0">#</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["InvoiceNumber"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["UserName"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["InvoiceDate"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["AttachmentName"]</th>
+                                                    <th class="border-bottom-0">@SharedLocalizer["Attachment"]</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach(var Attachment in invoiceAttachmentsModel)
+                                                {
+
+                                                <tr>
+                                                    <td>#</td>
+                                                    <td>@Attachment.InvoiceNumber</td>
+                                                    <td>User</td>
+                                                    <td>@Model.InvoiceDate</td>
+                                                    <td>@Attachment.FileName</td>
+                                                    <td>
+                                                        <a class="btn btn-outline-success" role="button">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                            @SharedLocalizer["Show"]
+                                                        </a>
+
+                                                        <a class="btn btn-outline-dark" role="button">
+                                                            <i class="fa-solid fa-download"></i>
+                                                            @SharedLocalizer["Download"]
+                                                        </a>
+
+                                                        @*@can('حذف الفاتورة')*@
+                                                        <a class="btn btn-outline-danger" data-effect="effect-scale"
+                                                            data-id="@Attachment.Id" data-invoice_id="@Attachment.InvoiceId" data-file_name="@Attachment.FileName" data-toggle="modal"
+                                                            data-invoice_number="@Attachment.InvoiceNumber" href="#deleteAttachment">
+                                                            <i class="las la-trash"></i>
+                                                            @SharedLocalizer["Delete"]
+                                                        </a>
+                                                        @*@endcan*@
+                                                    </td>
+                                                </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            @* ------------------------------------ Invoice Attachments --------------------------------------- *@
+                </div>
+            </div>
+
+            <!-- Modal Attachment Delete effects -->
+            <div class="modal" id="deleteAttachment">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">@SharedLocalizer["DeleteAttachment"]</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form asp-controller="InvoiceAttachment" asp-action="Delete" class="form-group" autocomplete="off">
+                            <div class="modal-body">
+                                <p> @SharedLocalizer["AreYouSureToDeleteTheAttachment"]<p>
+                                <input type="hidden" class="form-control" id="Id" name="Id">
+                                <input type="hidden" class="form-control" id="InvoiceId" name="InvoiceId">
+                                <input type="hidden" class="form-control" id="FileName" name="FileName" >
+                                <input type="hidden" class="form-control" id="InvoiceNumber" name="InvoiceNumber">
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["Confirm"]</button>
+                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">@SharedLocalizer["Cancel"]</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal Attachment Delete effects-->
+
+    </div>
+@* ----------------------- Content ---------------------- *@
+
+@section js
+{
+
+    <!-- Internal Data tables -->
+    <script src="~/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/responsive.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/jquery.dataTables.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/jszip.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/pdfmake.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/vfs_fonts.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.html5.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.print.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+    <!--Internal  Datatable js -->
+    <script src="~/assets/js/table-data.js"></script>
+
+
+    <script>
+        $('#deleteAttachment').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var Id = button.data('id')
+            var InvoiceId = button.data('invoice_id')
+            var file_name = button.data('file_name')
+            var invoice_number = button.data('invoice_number')
+            var modal = $(this)
+            modal.find('.modal-body #Id').val(Id);
+            modal.find('.modal-body #InvoiceId').val(InvoiceId);
+            modal.find('.modal-body #FileName').val(file_name);
+            modal.find('.modal-body #InvoiceNumber').val(invoice_number);
+        })
+    </script>
+
+}

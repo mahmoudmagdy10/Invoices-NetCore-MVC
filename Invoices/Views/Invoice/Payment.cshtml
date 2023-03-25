@@ -1,0 +1,337 @@
+﻿@model Invoices.BL.Models.InvoiceVM
+
+@inject Invoices.BL.Interface.ISectionRep sections
+@inject Invoices.BL.Interface.IProductRep products
+
+@{
+    ViewData["Title"] = @SharedLocalizer["ChangePaymentStatus"];
+    var productModel = products.GetById(Model.ProductId);
+}
+
+@section css
+    {
+    <!--- Internal Select2 css-->
+    <link href="~/assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <!---Internal Fileupload css-->
+    <link href="~/assets/plugins/fileuploads/css/fileupload.css" rel="stylesheet" type="text/css" />
+    <!---Internal Fancy uploader css-->
+    <link href="~/assets/plugins/fancyuploder/fancy_fileupload.css" rel="stylesheet" />
+    <!--Internal Sumoselect css-->
+    <link rel="stylesheet" href="~/assets/plugins/sumoselect/sumoselect-rtl.css">
+    <!--Internal  TelephoneInput css-->
+    <link rel="stylesheet" href="~/assets/plugins/telephoneinput/telephoneinput-rtl.css">
+}
+
+@section PageHeader
+    {
+    <div class="breadcrumb-header justify-content-between" style="margin-right:10px">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Invoices"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["ChangePaymentStatus"]</span>
+            </div>
+        </div>
+    </div>
+}
+
+@* -------------------------------------------- Content ------------------------------------------------------*@
+
+<!-- row -->
+
+<div class="row">
+
+    <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form asp-asp-controller="Invoice" asp-action="Payment" autocomplete="off">
+
+                        @*{{-- 1 --}}*@
+                        <div class="row">
+                            <input type="hidden" asp-for="User" value="User">
+
+                            <div class="col">
+                                <label asp-for="InvoiceNumber" class="control-label">@SharedLocalizer["InvoiceNumber"]</label>
+                                <input type="text" class="form-control" asp-for="InvoiceNumber" placeholder="@SharedLocalizer["EnterInvoiceNumber"]" required>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="InvoiceDate">@SharedLocalizer["InvoiceDate"]</label>
+                                <input class="form-control fc-datepicker" asp-for="InvoiceDate" placeholder="YYYY-MM-DD" type="date" required>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="DueDate">@SharedLocalizer["DueDate"]</label>
+                                <input class="form-control fc-datepicker" asp-for="DueDate" placeholder="YYYY-MM-DD" type="date" required>
+                            </div>
+
+                        </div>
+
+                        @*{{-- 2 --}}*@
+                        <div class="row">
+                            <div class="col">
+                                <label for="Section" class="control-label">@SharedLocalizer["Section"]</label>
+                                <select id="SectionList" asp-items="(SelectList) ViewBag.SectionList" class="form-control">
+                                    @{
+
+                                        var sectionModel = sections.GetById(productModel.SectionId);
+                                    }
+                                    <option value="@sectionModel.Id" selected>@sectionModel.Name</option>
+                                    <option>@SharedLocalizer["Choose Section"]</option>
+                                </select>
+                                <br />
+                                <br />
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="ProductId" class="control-label">@SharedLocalizer["Product"]</label>
+                                <select id="ProductList" asp-for="ProductId" class="form-control">
+                                    <option value="@productModel.Id" selected>@productModel.Name</option>
+                                    <option>@SharedLocalizer["Choose Product"]</option>
+                                </select>
+                                <br />
+                                <br />
+                            </div>
+
+
+                            <div class="col">
+                                <label asp-for="AmountCollection" class="control-label">@SharedLocalizer["AmountCollection"]</label>
+                                <input type="text" class="form-control" asp-for="AmountCollection" placeholder="@SharedLocalizer["EnterAmountCollection"]">
+                            </div>
+                        </div>
+
+                        @*{{-- 3 --}}*@
+                        <div class="row">
+
+                            <div class="col">
+                                <label asp-for="AmountCommission" class="control-label">@SharedLocalizer["AmountCommission"]</label>
+                                <input type="text" class="form-control form-control-lg" asp-for="AmountCommission"
+                                       placeholder="@SharedLocalizer["EnterAmountCommission"]" required>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="Discount" class="control-label">@SharedLocalizer["Discount"]</label>
+                                <input type="text" class="form-control form-control-lg" asp-for="Discount"
+                                       placeholder="@SharedLocalizer["EnterDiscount"]"
+                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                       value=0 required>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="RateVat" class="control-label">@SharedLocalizer["RateVat"]</label>
+                                <select asp-for="RateVat" class="form-control" onchange="myFunction()">
+                                    <!--placeholder-->
+                                    <option value="" selected disabled>@SharedLocalizer["SelectRateVat"]</option>
+                                    <option value="5%">5%</option>
+                                    <option value="10%">10%</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        @*{{-- 4 --}}*@
+                        <div class="row">
+                            <div class="col">
+
+                                <label asp-for="ValueVat" class="control-label">@SharedLocalizer["ValueVat"]</label>
+                                <input type="text" class="form-control" asp-for="ValueVat" readonly>
+                            </div>
+
+                            <div class="col">
+
+                                <label asp-for="Total" class="control-label">@SharedLocalizer["TheTotalIncludesVat"]</label>
+                                <input type="text" class="form-control" asp-for="Total" readonly>
+
+                            </div>
+                        </div>
+
+                        @*{{-- 5 --}}*@
+                        <div class="row">
+                            <div class="col">
+                                <label asp-for="Notes">@SharedLocalizer["Notes"]</label>
+                                <textarea class="form-control" asp-for="Notes" rows="3"></textarea>
+                            </div>
+                        </div><br>
+
+                        @*{{-- 6 --}}*@
+                        <div class="row">
+                                <div class="col">
+                                    <label for="ValueStatus" class="control-label">@SharedLocalizer["ValueStatus"]</label>
+                                    <select asp-for="ValueStatus" class="form-control SlectBox">
+                                    <option value="" selected disabled>@SharedLocalizer["SelectValueStatus"]</option>
+                                        <!--placeholder-->
+                                        <option value="2">@SharedLocalizer["Paied"]</option>
+                                        <option value="3">@SharedLocalizer["PartialPaied"]</option>
+                                    </select>
+                                </div>
+
+                                <div class="col">
+                                    <label asp-for="PayDate">@SharedLocalizer["PayDate"]</label>
+                            <input class="form-control fc-datepicker" asp-for="PayDate" placeholder="YYYY-MM-DD" type="date" required>
+                                </div>
+
+
+                                <div class="col" id="partial_paied" style="display: none">
+                            <label for="PartialPaiedAmount" class="control-label">@SharedLocalizer["PartialAmountPaied"]</label>
+                                    <input type="text" class="form-control" asp-for="PartialPaiedAmount">
+                                </div>
+
+                                <div class="col" id="rest_salary" style="display: none">
+                                    <label for="RestAmount" class="control-label">@SharedLocalizer["RestAmount"]</label>
+                                    <input type="text"   class="form-control" asp-for="RestAmount" readonly>
+                                    <input type="hidden" class="form-control" asp-for="AllocatedAmount">
+                                    <input type="hidden" class="form-control" asp-for="ValueStatus">
+                                </div>
+
+                            </div>
+                            <br><br>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">@SharedLocalizer["Update"]</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+
+<!-- row closed -->
+
+@* -------------------------------------------- Content ------------------------------------------------------*@
+
+@section js
+{
+    <!-- Internal Select2 js-->
+    <script src="~/assets/plugins/select2/js/select2.min.js"></script>
+    <!--Internal Fileuploads js-->
+    <script src="~/assets/plugins/fileuploads/js/fileupload.js"></script>
+    <script src="~/assets/plugins/fileuploads/js/file-upload.js"></script>
+    <!--Internal Fancy uploader js-->
+    <script src="~/assets/plugins/fancyuploder/jquery.ui.widget.js"></script>
+    <script src="~/assets/plugins/fancyuploder/jquery.fileupload.js"></script>
+    <script src="~/assets/plugins/fancyuploder/jquery.iframe-transport.js"></script>
+    <script src="~/assets/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
+    <script src="~/assets/plugins/fancyuploder/fancy-uploader.js"></script>
+    <!--Internal  Form-elements js-->
+    <script src="~/assets/js/advanced-form-elements.js"></script>
+    <script src="~/assets/js/select2.js"></script>
+    <!--Internal Sumoselect js-->
+    <script src="~/assets/plugins/sumoselect/jquery.sumoselect.js"></script>
+    <!--Internal  Datepicker js -->
+    <script src="~/assets/plugins/jquery-ui/ui/widgets/datepicker.js"></script>
+    <!--Internal  jquery.maskedinput js -->
+    <script src="~/assets/plugins/jquery.maskedinput/jquery.maskedinput.js"></script>
+    <!--Internal  spectrum-colorpicker js -->
+    <script src="~/assets/plugins/spectrum-colorpicker/spectrum.js"></script>
+    <!-- Internal form-elements js -->
+    <script src="~/assets/js/form-elements.js"></script>
+
+    <script>
+        var date = $('.fc-datepicker').datepicker({
+            dateFormat: 'yy-mm-dd'
+        }).val();
+
+    </script>
+
+    <script>
+        
+        $(function () {
+
+            $("#SectionList").change(function () {
+
+                var SectionId = $("#SectionList option:selected").val();
+
+                $("#ProductList option:not(:first)").remove();
+                //$("#ProductList").append("<option> Choose Product</option>");
+                //$("#ProductList").not(':first').empty();
+                if (SectionId) 
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Product/GetProductsBySectionId",
+                        data: { SectionId: SectionId },
+                        success: function (result) {
+                            console.log(result);
+                            $.each(result, function (i, e) {
+                                $("#ProductList").append("<option value='" + e.Id + "'>" + e.Name + "</option>");
+                            });
+
+                        }
+                    });
+                } 
+                else 
+                {
+                    console.log('AJAX load did not work');
+                }
+
+            });
+        });
+
+    </script>
+
+    <script>
+        function myFunction() {
+            var AmountCommission = parseFloat(document.getElementById("AmountCommission").value);
+            var Discount = parseFloat(document.getElementById("Discount").value);
+            var RateVat = parseFloat(document.getElementById("RateVat").value);
+            var NewCommission = AmountCommission - Discount;
+
+            if (typeof AmountCommission === 'undefined' || !AmountCommission) {
+                alert("@SharedLocalizer["InvoiceAttachment"]");
+            } else {
+                var ValueVatResult = parseInt(NewCommission * RateVat / 100);
+                var TotalIncludeVat = parseInt(ValueVatResult + NewCommission);
+
+                NewValueVatResult = ValueVatResult;
+                NewTotalIncludeVat = TotalIncludeVat;
+
+                document.getElementById("ValueVat").value = NewValueVatResult;
+                document.getElementById("Total").value = NewTotalIncludeVat;
+
+                //$("#Value_Vate_And_Total").append("<p class='alert alert-success'> Value Vat Result : " + NewValueVatResult + "</p>");
+                //$("#Value_Vate_And_Total").append("<p class='alert alert-success'> Total Result : " + NewTotalIncludeVat + "</p>");
+
+
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('select[name="ValueStatus"]').on('change', function () {
+
+                var payment_status = $(this).val();
+
+                if (payment_status == 2) {
+                    $('#partial_paied').hide();
+                    $('#rest_salary').hide();
+
+                } else {
+
+                    $('#partial_paied').show();
+                    $('#rest_salary').show();
+
+                    //if ($('input[name="ValueStatus"]').val() == 2 {
+                    //    $('input[name="PartialPaiedAmount"]').attr("readonly", "readonly");
+                    //    $('input[name="PartialPaiedAmount"]').attr("placeholder", "تم دفع الفاتورة");
+                    //    $('input[name="RestAmount"]').attr("placeholder", "لا يوجد مبلغ متبقي");
+
+                    //}
+                    //console.log($('input[name="ValueStatus"]').val());
+
+                    $('#PartialPaiedAmount').on('keyup', function () {
+                        // console.log('sdsd');
+                        var the_salary = $(this).val();
+                        var allocated = parseFloat($('#AllocatedAmount').val());
+                        var rest = (parseFloat($('#AmountCollection').val()) - allocated) - parseFloat(the_salary);
+                        $('#RestAmount').val(rest);
+                        console.log($('#RestAmount').val());
+                        // console.log($('input[name="Amount_collection"]').val());
+                    });
+                }
+            })
+
+        })
+
+    </script>
+}

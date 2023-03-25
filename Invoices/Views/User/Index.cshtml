@@ -1,0 +1,172 @@
+﻿@using Invoices.DAL.Extend;
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<ApplicationUser>
+
+
+@{
+    ViewData["Title"] = @SharedLocalizer["Users"];
+}
+
+@section BootstrapSelect {
+    <link href="~/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/jquery-datatable/skin/bootstrap/css/datatables.bootstrap.min.css" rel="stylesheet" />
+}
+
+
+@section PageHeader
+    {
+    <div class="breadcrumb-header justify-content-between" style="margin-right:10px">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">@SharedLocalizer["Users"]</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ @SharedLocalizer["UserCard"]</span>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="text-info">@TempData["UserUpdate"]</div>
+
+
+<div class="col-xl-12">
+    <div class="card mg-b-20">
+
+        <div class="card-header pb-0">
+
+            <div class="row row-xs wd-xl-80p">
+
+                <div class="col-sm-6 col-md-3">
+                    <a asp-controller="User" asp-action="Create" class="btn btn-primary-gradient btn-block"><i class="fas fa-plus"></i> @SharedLocalizer["CNU"]</a>
+
+                </div>
+
+            </div>
+        </div>
+        @if (@TempData["DeleteMsg"] != null)
+        {
+            <div class="alert alert-info">@TempData["DeleteMsg"]</div>
+        }
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example1" class="table key-buttons">
+                    <thead>
+                        <tr class="text-capitalize small">
+                            <th class="border-bottom-0">#</th>
+                            <th>@SharedLocalizer["Id"]</th>
+                            <th>@SharedLocalizer["UserName"]</th>
+                            <th>@SharedLocalizer["Details"]</th>
+                            <th>@SharedLocalizer["Update"]</th>
+                            <th>@SharedLocalizer["Delete"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>#</td>
+                                    <td>@item.Id</td>
+                                    <td>@item.UserName</td>
+                                    <td><a asp-controller="User" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">@SharedLocalizer["Details"]</a></td>
+                                    <td><a asp-controller="User" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">@SharedLocalizer["Edit"]</a></td>
+                                    <td>
+                                        <a class="modal-effect dropdown-item text-danger" data-effect="effect-scale"
+                                            data-id="@item.Id" data-name="@item.UserName" data-toggle="modal" href="#UserDelete">
+                                            <i class="las la-trash"></i>
+                                            @SharedLocalizer["Delete"]
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal delete effects Delete -->
+    <div class="modal" id="UserDelete">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">@SharedLocalizer["DeleteUser"]</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="User" asp-action="Delete" class="form-group" autocomplete="off">
+                    <div class="modal-body">
+                        <p>@SharedLocalizer["AreYouSureToDeleteTheUser"]</p>
+                        <input type="text" id="Name" name="Name" class="form-control" readonly>
+                        <input type="hidden" id="Id" name="Id">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-primary" type="submit">@SharedLocalizer["Confirm"]</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">@SharedLocalizer["Cancel"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal delete effects-->
+
+</div>
+
+@section BootstrapSelectJS {
+    <!-- Select Plugin Js -->
+    <script src="~/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+}
+
+@section DataTablesSection {
+    <script src="~/assets/plugins/jquery-datatable/jquery.datatables.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/skin/bootstrap/js/datatables.bootstrap.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+    <script>
+        $(function () {
+            $('.js-basic-example').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 5,
+                bSort: true,
+                bFilter: true,
+                bLengthChange: false,
+                //bInfo: false,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+
+            });
+        });
+
+
+        var table = $('.js-basic-example').DataTable();
+
+        new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                'copy', 'excel', 'pdf', 'csv', 'print'
+            ]
+        });
+
+        table.buttons().container()
+            .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+
+    </script>
+
+    <script>
+        $('#UserDelete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var Id = button.data('id')
+            var Name = button.data('Name')
+            var modal = $(this)
+            modal.find('.modal-body #Id').val(Id);
+            modal.find('.modal-body #InvoiceNumber').val(Name);
+        })
+    </script>
+}

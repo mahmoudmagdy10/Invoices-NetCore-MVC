@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>أضافة</value>
+  </data>
+  <data name="AddAttachments" xml:space="preserve">
+    <value>إضافة مرفق</value>
+  </data>
+  <data name="AddInvoice" xml:space="preserve">
+    <value>إضافة فاتورة</value>
+  </data>
+  <data name="AddOrRemoveUsers" xml:space="preserve">
+    <value>إضافة او حذف مستخدم</value>
+  </data>
+  <data name="AddOrRemoveUsersInRole" xml:space="preserve">
+    <value>إضافة او حذف مستخدم في اصلاحيات</value>
+  </data>
+  <data name="AddProduct" xml:space="preserve">
+    <value>إضافة منتج</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>إضافة قسم</value>
+  </data>
+  <data name="AllowedAttachmentTypesAre" xml:space="preserve">
+    <value>انواع المرفقات المسموح بها  : </value>
+  </data>
+  <data name="AmountCollection" xml:space="preserve">
+    <value>مبلغ التحصيل</value>
+  </data>
+  <data name="AmountCommission" xml:space="preserve">
+    <value>مبلغ العمولة</value>
+  </data>
+  <data name="AmountPaied" xml:space="preserve">
+    <value>المبلغ المدفوع</value>
+  </data>
+  <data name="AreYouSureToDeleteTheAttachment" xml:space="preserve">
+    <value>هل انت متأكد من حذف المرفق ؟</value>
+  </data>
+  <data name="AreYouSureToDeleteTheInvoice" xml:space="preserve">
+    <value>هل انت متأكد من حذف الفاتورة ؟</value>
+  </data>
+  <data name="AreYouSureToDeleteTheRole" xml:space="preserve">
+    <value>هل انت متأكد من حذف الصلاحية ؟</value>
+  </data>
+  <data name="Attachment" xml:space="preserve">
+    <value>المرفق</value>
+  </data>
+  <data name="AttachmentName" xml:space="preserve">
+    <value>اسم المرفق</value>
+  </data>
+  <data name="BackToData" xml:space="preserve">
+    <value>الرجوع للبيانات</value>
+  </data>
+  <data name="BilledTo" xml:space="preserve">
+    <value>مدفوعة لــ</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="ChangePaymentStatus" xml:space="preserve">
+    <value>تغير حالة الدفع</value>
+  </data>
+  <data name="ChangePayStatus" xml:space="preserve">
+    <value>تغير حالة الدفع</value>
+  </data>
+  <data name="Choose Product" xml:space="preserve">
+    <value>اختار المنتج</value>
+  </data>
+  <data name="Choose Section" xml:space="preserve">
+    <value>اختار القسم</value>
+  </data>
+  <data name="CNR" xml:space="preserve">
+    <value>إنشاء صلاحية جديدة</value>
+  </data>
+  <data name="CNU" xml:space="preserve">
+    <value>إنشاء مستخدم جديد</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>تأكيد</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="DeleteInvoice" xml:space="preserve">
+    <value>حذف الفاتورة</value>
+  </data>
+  <data name="DeleteSection" xml:space="preserve">
+    <value>حذف القسم</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>الخصم</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>تحميل</value>
+  </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>تاريخ الأستحقاق</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="EditRole" xml:space="preserve">
+    <value>تعديل الصلاحية</value>
+  </data>
+  <data name="EditSection" xml:space="preserve">
+    <value>تعديل القسم</value>
+  </data>
+  <data name="EnterAmountCollection" xml:space="preserve">
+    <value>يرجي ادخال مبلغ التحصيل</value>
+  </data>
+  <data name="EnterAmountCommission" xml:space="preserve">
+    <value>يرجي ادخال مبلغ العمولة</value>
+  </data>
+  <data name="EnterDiscount" xml:space="preserve">
+    <value>يرجي ادخال مبلغ الخصم</value>
+  </data>
+  <data name="EnterInvoiceNumber" xml:space="preserve">
+    <value>ادخل رقم الفاتورة</value>
+  </data>
+  <data name="EnterProductDescription" xml:space="preserve">
+    <value>ادخل وصف المنتج</value>
+  </data>
+  <data name="EnterProductName" xml:space="preserve">
+    <value>ادخل اسم المنتج</value>
+  </data>
+  <data name="EnterSectionDescription" xml:space="preserve">
+    <value>ادخل وصف القسم</value>
+  </data>
+  <data name="EnterSectionName" xml:space="preserve">
+    <value>ادخل اسم القسم</value>
+  </data>
+  <data name="ExportInvoices" xml:space="preserve">
+    <value>تصدير الفواتير</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>من تاريخ</value>
+  </data>
+  <data name="Hi welcome back" xml:space="preserve">
+    <value>مرحباً بك </value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>الرقم التسلسلي</value>
+  </data>
+  <data name="INR" xml:space="preserve">
+    <value>يرجي ادخال رقم الفاتورة</value>
+  </data>
+  <data name="InvoiceAttachment" xml:space="preserve">
+    <value>مرفقات الفاتورة</value>
+  </data>
+  <data name="InvoiceAttachments" xml:space="preserve">
+    <value>مرفقات الفاتورة</value>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>تاريخ الفاتورة</value>
+  </data>
+  <data name="InvoiceInfo" xml:space="preserve">
+    <value>معلومات الفاتورة</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>رقم الفاتورة</value>
+  </data>
+  <data name="Invoices" xml:space="preserve">
+    <value>الفواتير</value>
+  </data>
+  <data name="InvoicesList" xml:space="preserve">
+    <value>قائمة الفاتير</value>
+  </data>
+  <data name="InvoicesReports" xml:space="preserve">
+    <value>تقارير الفواتير</value>
+  </data>
+  <data name="InvoicesStatus" xml:space="preserve">
+    <value>حالة الفواتير</value>
+  </data>
+  <data name="InvoiceStatus" xml:space="preserve">
+    <value>حالة الفاتورة</value>
+  </data>
+  <data name="ltr" xml:space="preserve">
+    <value>rtl</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>الصفحة الرئيسية</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>الملاحظات</value>
+  </data>
+  <data name="NumOfInvoices" xml:space="preserve">
+    <value>عدد الفواتير</value>
+  </data>
+  <data name="Operations" xml:space="preserve">
+    <value>العمليات</value>
+  </data>
+  <data name="Paied" xml:space="preserve">
+    <value>مدفوع</value>
+  </data>
+  <data name="PaiedInvoices" xml:space="preserve">
+    <value>الفواتير المدفوعة</value>
+  </data>
+  <data name="PaiedInvoicesList" xml:space="preserve">
+    <value>قائمة الفواتير المدفوعة</value>
+  </data>
+  <data name="PartialAmountPaied" xml:space="preserve">
+    <value>القيمة المدفوعة جزئياً</value>
+  </data>
+  <data name="PartialPaied" xml:space="preserve">
+    <value>مدفوع جزئياً</value>
+  </data>
+  <data name="PartialPaiedInvoiceList" xml:space="preserve">
+    <value>قائمة الفواتير المدفوعة جزئياً</value>
+  </data>
+  <data name="PartialPaiedInvoices" xml:space="preserve">
+    <value>الفواتير المدفوعة جزئياً</value>
+  </data>
+  <data name="PayDate" xml:space="preserve">
+    <value>تاريخ الدفع</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>طباعة</value>
+  </data>
+  <data name="PrintInvoice" xml:space="preserve">
+    <value>طباعة</value>
+  </data>
+  <data name="Privileges" xml:space="preserve">
+    <value>الامتيازات</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>المنتج</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>اسم المنتج</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>المنتجات</value>
+  </data>
+  <data name="ProductsList" xml:space="preserve">
+    <value>قائمة المنتجات</value>
+  </data>
+  <data name="RateVat" xml:space="preserve">
+    <value>نسبة ضريبة القيمة المضافة</value>
+  </data>
+  <data name="RemainingAmount" xml:space="preserve">
+    <value>المبلغ المتبقي</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>التقارير</value>
+  </data>
+  <data name="RestAmount" xml:space="preserve">
+    <value>القيمة المتبقية</value>
+  </data>
+  <data name="RoleCard" xml:space="preserve">
+    <value>بطاقة الصلاحية</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>الصلاحيات</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="SearchByInvoiceNum" xml:space="preserve">
+    <value>بحث برقم الفاتورة</value>
+  </data>
+  <data name="SearchByInvoiceType" xml:space="preserve">
+    <value>بحث بنوع الفاتورة</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="SectionName" xml:space="preserve">
+    <value>اسم القسم</value>
+  </data>
+  <data name="Sections" xml:space="preserve">
+    <value>الأقسام</value>
+  </data>
+  <data name="SectionsList" xml:space="preserve">
+    <value>قائمة الأقسام</value>
+  </data>
+  <data name="SelectInvoicesType" xml:space="preserve">
+    <value>تحديد نوع الفاتورة</value>
+  </data>
+  <data name="SelectRateVat" xml:space="preserve">
+    <value>نسبة ضريبة القيمة المضافة</value>
+  </data>
+  <data name="SelectValueStatus" xml:space="preserve">
+    <value>اختار حالة الدفع</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>الخدمات</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>الأعدادات</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="TheTotalIncludesVat" xml:space="preserve">
+    <value>الاجمالي شامل الضريبة</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>إلي تاريخ</value>
+  </data>
+  <data name="ToltalInvoices" xml:space="preserve">
+    <value>إجمالي الفواتير</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>الأجمالي</value>
+  </data>
+  <data name="TotalCollectionAndCommissionAmount" xml:space="preserve">
+    <value>إجمالي مبلغ التحصيل و العمولة</value>
+  </data>
+  <data name="TotalIncludesVat" xml:space="preserve">
+    <value>الأجمالي شامل الضريبة</value>
+  </data>
+  <data name="UnPaiedInvoices" xml:space="preserve">
+    <value>الفواتير الغير المدفوعة</value>
+  </data>
+  <data name="UnPaiedInvoicesList" xml:space="preserve">
+    <value>قائمة الفواتير الغير المدفوعة</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="UserCard" xml:space="preserve">
+    <value>بطاقة المستخدم</value>
+  </data>
+  <data name="UserDetails" xml:space="preserve">
+    <value>تفاصيل المستخدم</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
+  <data name="UsersReports" xml:space="preserve">
+    <value>تقارير العملاء</value>
+  </data>
+  <data name="ValueStatus" xml:space="preserve">
+    <value>حالة الدفع</value>
+  </data>
+  <data name="ValueVat" xml:space="preserve">
+    <value>قيمة ضريبة القيمة المضافة</value>
+  </data>
+  <data name="WTR" xml:space="preserve">
+    <value>مرحباً في صفحة الصلاحيات</value>
+  </data>
+  <data name="WTU" xml:space="preserve">
+    <value>مرحباً في صفحة المستخدمين</value>
+  </data>
+</root>
